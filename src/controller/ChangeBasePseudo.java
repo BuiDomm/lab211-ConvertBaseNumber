@@ -60,7 +60,7 @@ public class ChangeBasePseudo extends Menu<String> {
 
             case 2: {
                 String[] mc = {"Binary", "Decimal", "Hexadecimal"};
-                Menu m = new Menu("Conver BIN to another base !!! ", mc, "Exit") {
+                Menu m = new Menu("Conver DEC to another base !!! ", mc, "Exit") {
                     @Override
                     public void execute(int n) {
                         switch (n) {
@@ -90,7 +90,7 @@ public class ChangeBasePseudo extends Menu<String> {
             }
             case 3: {
                 String[] mc = {"Binary", "Decimal", "Hexadecimal"};
-                Menu m = new Menu("Conver BIN to another base !!! ", mc, "Exit") {
+                Menu m = new Menu("Conver HEX to another base !!! ", mc, "Exit") {
                     @Override
                     public void execute(int n) {
                         switch (n) {
@@ -125,13 +125,16 @@ public class ChangeBasePseudo extends Menu<String> {
 //    Handle BIN to another base type
     public int handleBINtoDEC(String binaryString) {
         int decimalNumber = 0;
-        int binaryBase = 2; 
+        int binaryBase = 2; // Cơ số của chuỗi nhị phân
 
+        // Duyệt qua từng ký tự trong chuỗi từ trái sang phải
         for (int i = 0; i < binaryString.length(); i++) {
             char binaryDigit = binaryString.charAt(i);
 
+            // Chuyển đổi ký tự nhị phân thành giá trị số nguyên
             int binaryValue = binaryDigit - '0';
 
+            // Cộng vào giá trị số nguyên decimalNumber
             decimalNumber = decimalNumber * binaryBase + binaryValue;
         }
 
@@ -162,44 +165,46 @@ public class ChangeBasePseudo extends Menu<String> {
 //    Handle DEC to another base type
 
     public int handleDECtoBIN(String decimalString) {
+        // Chuyển đổi chuỗi số nguyên thành một số nguyên cơ số 10
         int decimalNumber = Integer.parseInt(decimalString);
 
         if (decimalNumber == 0) {
-            return 0; 
+            return 0; // Điều kiện đặc biệt khi số nguyên là 0
         }
 
         StringBuilder binaryString = new StringBuilder();
 
         while (decimalNumber > 0) {
-            int remainder = decimalNumber % 2;
-            binaryString.insert(0, remainder); 
-            decimalNumber /= 2; 
+            int remainder = decimalNumber % 2; // Lấy phần dư khi chia cho 2
+            binaryString.insert(0, remainder); // Thêm phần dư vào đầu chuỗi kết quả
+            decimalNumber /= 2; // Chia số nguyên cho 2
         }
 
         return Integer.parseInt(binaryString.toString());
     }
 
     public String handleDECtoHEX(String decimalString) {
+        // Chuyển đổi chuỗi số nguyên thành một số nguyên cơ số 10
         int decimalNumber = Integer.parseInt(decimalString);
 
         if (decimalNumber == 0) {
-            return "0"; 
+            return "0"; // Điều kiện đặc biệt khi số nguyên là 0
         }
 
         StringBuilder hexadecimalString = new StringBuilder();
 
         while (decimalNumber > 0) {
-            int remainder = decimalNumber % 16; 
+            int remainder = decimalNumber % 16; // Lấy phần dư khi chia cho 16
             char hexDigit;
 
             if (remainder < 10) {
-                hexDigit = (char) ('0' + remainder);
+                hexDigit = (char) ('0' + remainder); // Nếu phần dư là số từ 0 đến 9
             } else {
-                hexDigit = (char) ('A' + remainder - 10); 
+                hexDigit = (char) ('A' + remainder - 10); // Nếu phần dư là A đến F
             }
 
-            hexadecimalString.insert(0, hexDigit); 
-            decimalNumber /= 16;
+            hexadecimalString.insert(0, hexDigit); // Thêm ký tự vào đầu chuỗi kết quả
+            decimalNumber /= 16; // Chia số nguyên cho 16
         }
 
         return hexadecimalString.toString();
@@ -207,6 +212,7 @@ public class ChangeBasePseudo extends Menu<String> {
 //Handle HEX - > another data
 
     public static String handleHEXtoBIN(String hexadecimalString) {
+        // Tạo một bảng ánh xạ từ các ký tự hex sang số nhị phân
         Map<Character, String> hexToBinaryMap = new HashMap<>();
         hexToBinaryMap.put('0', "0000");
         hexToBinaryMap.put('1', "0001");
@@ -230,11 +236,11 @@ public class ChangeBasePseudo extends Menu<String> {
         for (int i = 0; i < hexadecimalString.length(); i++) {
             char hexDigit = hexadecimalString.charAt(i);
 
-           
+            // Kiểm tra xem ký tự có tồn tại trong bảng ánh xạ không
             if (hexToBinaryMap.containsKey(hexDigit)) {
                 binaryString.append(hexToBinaryMap.get(hexDigit));
             } else {
-                return "Invalid Hexadecimal Input";
+                return "Invalid Hexadecimal Input"; // Trả về thông báo lỗi nếu ký tự không hợp lệ
             }
         }
 
@@ -244,15 +250,15 @@ public class ChangeBasePseudo extends Menu<String> {
     public static int handleHEXtoDEC(String hexadecimalString) {
         // Kiểm tra chuỗi đầu vào có hợp lệ không
         if (!hexadecimalString.matches("^[0-9A-Fa-f]+$")) {
-            return -1;
+            return -1; // Trả về -1 nếu chuỗi không hợp lệ
         }
 
         try {
-       
+            // Chuyển đổi từ chuỗi cơ số 16 sang số nguyên cơ số 10
             int decimalNumber = Integer.parseInt(hexadecimalString, 16);
             return decimalNumber;
         } catch (NumberFormatException e) {
-            return -1;
+            return -1; // Trả về -1 nếu có lỗi chuyển đổi
         }
     }
 
